@@ -17,7 +17,7 @@ import (
 func main() {
 	args := os.Args
 	if len(args) >= 2 {
-		config, err := clientcmd.BuildConfigFromFlags("", "/Users/yoreland/.kube/config")
+		config, err := clientcmd.BuildConfigFromFlags("", "/home/ec2-user/.kube/config")
 		if err != nil {
 			panic(err.Error())
 		}
