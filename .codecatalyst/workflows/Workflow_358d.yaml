@@ -1,4 +1,6 @@
 Name: Workflow_358d
+Compute:
+  Type: LAMBDA
 SchemaVersion: "1.0"
 
 # Optional - Set automatic triggers.
@@ -9,3 +11,33 @@ Triggers:
 
 # Required - Define action configurations.
 Actions:
+  Build_6b:
+    # Identifies the action. Do not modify this value.
+    Identifier: aws/build@v1.0.0
+    # Specifies the source and/or artifacts to pass to the action as input.
+    Inputs:
+      # Optional
+      Sources:
+        - WorkflowSource # This specifies that the action requires this Workflow as a source
+    Outputs:
+      # Optional; Automatically discover reports for popular test frameworks
+      AutoDiscoverReports:
+        Enabled: true
+        # Use as prefix for the report files
+        ReportNamePrefix: rpt
+    # Defines the action's properties.
+    Configuration:
+      # Required - Steps are sequential instructions that run shell commands
+      Steps:
+        - Run: echo "Hello, World!"
+        - Run: echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" >> report.xml
+        - Run: echo "<testsuite tests=\"1\" name=\"TestAgentJunit\" >" >> report.xml
+        - Run: echo "<testcase classname=\"TestAgentJunit\" name=\"Dummy
+            Test\"/></testsuite>" >> report.xml
+      Container:
+        Registry: CODECATALYST
+        Image: CodeCatalystLinuxLambda_x86_64:2024_03
+    Compute:
+      Type: Lambda
+    Environment:
+      Name: test
